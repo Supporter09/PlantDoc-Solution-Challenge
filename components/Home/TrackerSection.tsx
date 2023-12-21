@@ -58,13 +58,12 @@ export default function TrackerSection() {
 
 const styles = StyleSheet.create({
     titleRecommend: {
-        fontFamily: 'DM-Sans',
         fontSize: 20
     },
     tracker: {
         // paddingTop: 24
     },
-    iconContainer:{
+    iconContainer: {
         justifyContent: 'center',
         aspectRatio: '1/1',
         height: 52,

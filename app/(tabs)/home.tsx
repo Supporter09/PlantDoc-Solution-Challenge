@@ -103,10 +103,10 @@ export default function Home() {
           }}>
             <AlertCard />
             <AlertCard
-              mainColor = '#E6B44C'
-              bgColor = '#FCF1E3'
-              title = 'The temperature of carrot field is not ensure'
-              desc = 'The temperature of carrot field is 2 degree lower than expected'
+              mainColor='#E6B44C'
+              bgColor='#FCF1E3'
+              title='The temperature of carrot field is not ensure'
+              desc='The temperature of carrot field is 2 degree lower than expected'
             />
           </Surface>
           {/* <Divider style={{ backgroundColor: '#D9D9D9' }} /> */}
@@ -132,7 +132,6 @@ const styles = StyleSheet.create({
   },
   scanText: {
     color: '#61AF2B',
-    fontFamily: 'DM-Sans',
     fontWeight: 'bold',
     paddingLeft: 16,
   },
@@ -140,7 +139,6 @@ const styles = StyleSheet.create({
     paddingVertical: 24
   },
   titleRecommend: {
-    fontFamily: 'DM-Sans',
     fontSize: 20
   },
   iconContainer: {

@@ -45,22 +45,21 @@ export default function AlertCard({
                     paddingLeft: 16
                 }} >
                     <Text variant='bodyMedium' style={{
-                        fontFamily: 'DM-Sans',
-                        fontWeight: 'bold'
+                    fontWeight: 'bold'
                     }}>
-                        {title.slice(0, 38) + '...'}
-                    </Text>
-                    <Text variant='bodySmall' style={{
-                        fontFamily: 'DM-Sans'
+                    {title.slice(0, 38) + '...'}
+                </Text>
+                <Text variant='bodySmall' style={{
+                        
                     }} >
-                        {desc.slice(0, 38) + '...'}
-                    </Text>
-                </Surface>
-
-            </Surface>
-
-            <Ionicon name='chevron-forward-outline' color={'#033858'} size={24} />
+                {desc.slice(0, 38) + '...'}
+            </Text>
         </Surface>
+
+            </Surface >
+
+        <Ionicon name='chevron-forward-outline' color={'#033858'} size={24} />
+        </Surface >
     );
 }
 

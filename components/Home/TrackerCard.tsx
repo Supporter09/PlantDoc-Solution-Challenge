@@ -20,35 +20,33 @@ export default function TrackerCard({ numOfPlants = 2, name = 'Rice Field', main
             justifyContent: 'space-between',
         },
         desc: {
-            fontFamily: 'DM-Sans',
-            color: '#628093',
-            fontSize: 12
-        },
+        color: '#628093',
+        fontSize: 12
+    },
         title: {
-            fontFamily: 'DM-Sans',
-            fontWeight: 'bold'
-        }
+        fontWeight: 'bold'
+}
     });
 
-    return (
-        <Surface elevation={0} style={{
-            width: 140,
-            flexDirection: 'row',
-            alignItems: 'center',
-        }} >
-            <Surface elevation={0} style={styles.iconContainer} >
-                <Ionicon name='leaf-outline' color={mainColor} size={24} />
-            </Surface>
-
-            <Surface elevation={0} style={styles.textContainer} >
-                <Text variant='bodyMedium' style={styles.desc} >
-                    {numOfPlants + ' Plants'}
-                </Text>
-                <Text variant='bodyLarge' style={styles.title} >
-                    {name}
-                </Text>
-            </Surface>
+return (
+    <Surface elevation={0} style={{
+        width: 140,
+        flexDirection: 'row',
+        alignItems: 'center',
+    }} >
+        <Surface elevation={0} style={styles.iconContainer} >
+            <Ionicon name='leaf-outline' color={mainColor} size={24} />
         </Surface>
-    );
+
+        <Surface elevation={0} style={styles.textContainer} >
+            <Text variant='bodyMedium' style={styles.desc} >
+                {numOfPlants + ' Plants'}
+            </Text>
+            <Text variant='bodyLarge' style={styles.title} >
+                {name}
+            </Text>
+        </Surface>
+    </Surface>
+);
 }
 

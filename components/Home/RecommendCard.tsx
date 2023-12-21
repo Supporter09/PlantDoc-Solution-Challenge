@@ -5,7 +5,7 @@ import { Text, Surface } from 'react-native-paper';
 
 let imagePath = require('@/assets/images/rice.png')
 
-export default function RecommendCard({season = 'Spring', plant = 'Wheat', img_uri = imagePath})  {
+export default function RecommendCard({ season = 'Spring', plant = 'Wheat', img_uri = imagePath }) {
 
     return (
         <Surface elevation={0} style={styles.cardContainer} >
@@ -13,21 +13,19 @@ export default function RecommendCard({season = 'Spring', plant = 'Wheat', img_u
                 justifyContent: 'center'
             }} >
                 <Text variant='bodySmall' style={{
-                    fontFamily: 'DM-Sans',
                     color: '#61AF2B'
                 }} >
-                    {season}
-                </Text>
-                <Text variant='bodyLarge' style={{
-                    fontFamily: 'DM-Sans',
-                    fontWeight: 'bold'
+                {season}
+            </Text>
+            <Text variant='bodyLarge' style={{
+                fontWeight: 'bold'
                 }} >
-                    {plant}
-                </Text>
-            </Surface>
+            {plant}
+        </Text>
+            </Surface >
 
-            <Image source={img_uri} style={styles.cardImage} />
-        </Surface>
+        <Image source={img_uri} style={styles.cardImage} />
+        </Surface >
     );
 }
 
@@ -49,7 +47,7 @@ const styles = StyleSheet.create({
         right: -16,
         top: -20,
         aspectRatio: '1/1',
-        width:'100%',
+        width: '100%',
         height: 'auto'
     }
 });

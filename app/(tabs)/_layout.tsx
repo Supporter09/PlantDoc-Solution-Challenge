@@ -27,18 +27,18 @@ export default function TabLayout() {
 
           if (route.name === 'home') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'notes') {
+          } else if (route.name === 'trackers') {
             iconName = focused
-              ? 'document-text'
-              : 'document-text-outline';
-          } else if (route.name === 'ai_assistants') {
+              ? 'leaf'
+              : 'leaf-outline';
+          } else if (route.name === 'wiki') {
             iconName = focused
-              ? 'hardware-chip'
-              : 'hardware-chip-outline';
-          } else if (route.name === 'chat') {
+              ? 'book'
+              : 'book-outline';
+          } else if (route.name === 'profile') {
             iconName = focused
-              ? 'chatbubble-ellipses'
-              : 'chatbubble-ellipses-outline';
+              ? 'person'
+              : 'person-outline';
           } else if (route.name === 'saved') {
             iconName = focused ? 'bookmark' : 'bookmark-outline';
           }
@@ -64,7 +64,6 @@ export default function TabLayout() {
             </View>
           ),
           headerTitleStyle: {
-            fontFamily: 'DM-Sans',
             fontWeight: 'bold'
           },
           tabBarItemStyle: {
@@ -72,6 +71,50 @@ export default function TabLayout() {
           }
         }}
       />
+
+      <Tabs.Screen
+        name="trackers"
+        options={{
+          title: 'Trackers',
+          headerShown: false,
+          headerTitleStyle: {
+            fontWeight: 'bold'
+          },
+        }}
+      />
+
+      <Tabs.Screen
+        name="wiki"
+        options={{
+          title: 'Wiki',
+          headerTitleStyle: {
+            fontWeight: 'bold'
+          },
+        }}
+      />
+
+      <Tabs.Screen
+        name="saved"
+        options={{
+          title: 'Saved',
+          headerTitle: 'Saved Plants',
+          headerTitleStyle: {
+            fontWeight: 'bold'
+          },
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          headerTitle: 'Your Profile',
+          headerTitleStyle: {
+            fontWeight: 'bold'
+          },
+        }}
+      />
+
       <Tabs.Screen
         name="two"
         options={{

@@ -1,9 +1,9 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { configureFonts, MD3LightTheme, PaperProvider } from 'react-native-paper';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export {
@@ -46,15 +46,33 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const fontConfig = {
+    customVariant: {
+      fontFamily: Platform.select({
+        web: 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif',
+        android:'DM-Sans',
+        ios: 'DM-Sans',
+        default: 'sans-serif',
+      }),
+      // fontWeight: '400',
+      // letterSpacing: 0.5,
+      // lineHeight: 22,
+      // fontSize: 20,
+    }
+  };
 
+  let theme = {
+    ...MD3LightTheme,
+    fonts: configureFonts({config: fontConfig}),
+  };
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <PaperProvider theme={theme} >
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          {/* <Stack.Screen name="camera" options={{ headerShown: false }} /> */}
         </Stack>
-      </ThemeProvider>
+      </PaperProvider>
     </SafeAreaProvider>
   );
 }
