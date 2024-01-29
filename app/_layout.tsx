@@ -70,7 +70,8 @@ function RootLayoutNav() {
       <PaperProvider theme={theme} >
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          {/* <Stack.Screen name="camera" options={{ headerShown: false }} /> */}
+          <Stack.Screen name="camera" options={{ headerShown: false }} />
+          <Stack.Screen name="result" options={{ headerShown: false }} />
         </Stack>
       </PaperProvider>
     </SafeAreaProvider>

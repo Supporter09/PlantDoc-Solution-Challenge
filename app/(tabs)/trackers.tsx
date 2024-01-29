@@ -12,7 +12,6 @@ export default function Trackers() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ResultPage />
     </SafeAreaView>
   );
 }

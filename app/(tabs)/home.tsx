@@ -8,6 +8,8 @@ import Ionicon from '@expo/vector-icons/Ionicons';
 import RecommendCard from '@/components/Home/RecommendCard';
 import TrackerSection from '@/components/Home/TrackerSection'
 import AlertCard from '@/components/Home/AlertCard';
+import { Link } from 'expo-router';
+import { useEffect } from 'react';
 
 let imagePath = require('@/assets/images/carrot.png')
 
@@ -20,18 +22,20 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
       >
         {/* Scan Section */}
-        <Button
-          style={styles.scan}
-          contentStyle={{
-            paddingVertical: 8
-          }}
-          icon={() => <Ionicon name='scan-outline' size={28} color={'#61AF2B'} />}
-          onPress={() => alert("Click")}>
+        <Link href={'/camera'} asChild>
+          <Button
+            style={styles.scan}
+            contentStyle={{
+              paddingVertical: 8
+            }}
+            icon={() => <Ionicon name='scan-outline' size={28} color={'#61AF2B'} />}
+          >
 
-          <Text variant='bodyMedium' style={styles.scanText}>
-            Scan and identify the plant
-          </Text>
-        </Button>
+            <Text variant='bodyMedium' style={styles.scanText}>
+              Scan and identify the plant
+            </Text>
+          </Button>
+        </Link>
 
         {/* Recommend Plants */}
         <View style={styles.recommend}>
