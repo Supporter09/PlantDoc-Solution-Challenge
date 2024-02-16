@@ -2,30 +2,33 @@ import { Text, View } from '@/components/Themed';
 import { Camera } from 'expo-camera';
 import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet, TouchableOpacity, Platform, Image } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useIsFocused } from '@react-navigation/native';
 import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
+import { MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
-
-
 
 const CameraScreen: React.FC = () => {
   const [permission, setPermission] = useState<boolean | null>(null);
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean | null>(null);
   const cameraRef = useRef<Camera>(null);
   const [capturedPhoto, setCapturedPhoto] = useState(null);
+  const [pickedImage, setPickedImage] = useState(null);
+
   // For navigation
   const navigation = useNavigation();
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    return () => {
-      // Clean up resources when the component is unmounted
-      // This will stop the camera and release its resources
-      if (cameraRef.current) {
-        cameraRef.current.pausePreview();
-      }
-    };
-  }, []);
+    if (isFocused) {
+      // Start the camera when the screen is focused
+      startCamera();
+    } else {
+      // Pause the camera when the screen is not focused
+      pauseCamera();
+    }
+  }, [isFocused]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -50,6 +53,64 @@ const CameraScreen: React.FC = () => {
     }, [])
   );
 
+  // Handle camera
+  const startCamera = async () => {
+    if (cameraRef.current) {
+      await cameraRef.current.resumePreview();
+    }
+  };
+
+  const pauseCamera = async () => {
+    if (cameraRef.current) {
+      await cameraRef.current.pausePreview();
+    }
+  };
+
+  // Choosing photo from library
+  const selectImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setPickedImage(result.assets[0]['uri']);
+      console.log(result.assets[0]['uri'])
+    }
+  };
+
+  const uploadGalleryImage = async () => {
+    if (!pickedImage) {
+      console.log('No image picked');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', {
+      uri: pickedImage,
+      name: 'image.jpg',
+      type: 'image/jpeg',
+    });
+
+    try {
+      const response = await axios.post('http://192.168.1.5:8000/predict', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Upload successful:', response.data);
+      navigation.navigate('result', { data: response.data });
+      setPickedImage(null)
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
+
+
+
+  // Taking photo
   const handleTakePhoto = async () => {
     if (cameraRef.current) {
       const { uri } = await cameraRef.current.takePictureAsync();
@@ -76,26 +137,28 @@ const CameraScreen: React.FC = () => {
       try {
         // Post image to api
         // Structure: {file: <image>}
-        let formData  = new FormData();
+        let formData = new FormData();
         formData.append('data', JSON.stringify({ key: 'value' }));
         const photoUriParts = capturedPhoto.split('.');
         const fileExtension = photoUriParts[photoUriParts.length - 1];
+        console.log('Captured uri', capturedPhoto)
         formData.append('file', {
           uri: capturedPhoto,
           name: `photo.${fileExtension}`,
           type: `image/${fileExtension}`,
         });
 
-        const response = await axios.post('http://192.168.1.6:8000/predict', formData, {
+        const response = await axios.post('http://192.168.1.5:8000/predict', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
 
         // console.log('Upload Response:', response.data);
-        
+
         // Navigate to result page with returned data
         navigation.navigate('result', { data: response.data });
+        setCapturedPhoto(null)
       } catch (error) {
         console.error('Error uploading photo:', error);
       }
@@ -116,6 +179,12 @@ const CameraScreen: React.FC = () => {
         <View
           style={styles.container}
         >
+          {/* Choose image from gallery */}
+          <TouchableOpacity style={styles.galleryIcon} onPress={selectImage}>
+            <MaterialIcons name="photo-library" size={52} color="white" />
+          </TouchableOpacity>
+
+          {/* Taking photo */}
           <TouchableOpacity onPress={handleTakePhoto} style={{ marginBottom: 20 }}>
             <View
               style={styles.buttonContainer}
@@ -127,6 +196,18 @@ const CameraScreen: React.FC = () => {
           </TouchableOpacity>
         </View>
       </Camera>
+
+      {/* Upload Gallery Image */}
+      {pickedImage && (
+        <View style={{ alignItems: 'center' }}>
+          <Image source={{ uri: pickedImage }} style={{ width: 200, height: 200, marginTop: 20 }} />
+          <TouchableOpacity onPress={uploadGalleryImage} style={{ marginTop: 20 }}>
+            <Text>Upload Photo</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {/* Upload Captured Image */}
       {capturedPhoto && (
         <View style={{ alignItems: 'center' }}>
           <Image source={{ uri: capturedPhoto }} style={{ width: 200, height: 200, marginTop: 20 }} />
@@ -146,6 +227,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-end',
+    position: 'relative'
   },
   buttonContainer: {
     borderWidth: 2,
@@ -165,9 +247,11 @@ const styles = StyleSheet.create({
     width: 40,
     backgroundColor: 'white',
   },
-  text: {
-
-  }
+  galleryIcon: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+  },
 });
 
 export default CameraScreen;
