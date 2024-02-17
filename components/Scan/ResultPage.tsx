@@ -1,21 +1,32 @@
 import { StyleSheet } from 'react-native';
-
 import { View } from '../../components/Themed';
 import { Pressable, ScrollView, Image } from 'react-native';
 import { Text, Button, Divider, Surface } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import Ionicon from '@expo/vector-icons/Ionicons';
+
 import DataCard from './DataCard'
 import Description from './Description'
+
 let imgPath = require('@/assets/images/infected_rice.png')
 
-export default function ResultPage() {
+export default function ResultPage({ data, uri }) {
+
+  const navigation = useNavigation();
+  const value = data[0];
+  console.log('uri', value['uri']);
+
+  // Back to homepage
+  const goBackHomepage = () => {
+    navigation.navigate('home');
+  }
 
   return (
     <ScrollView
       style={styles.container}
       showsVerticalScrollIndicator={false}
     >
-      <Image source={imgPath} style={{
+      <Image source={{ uri: value['uri'] ? value['uri'] : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FOryza_sativa&psig=AOvVaw2m8moWreOWZyEw2UYbO2S0&ust=1708265165491000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCODQgLHFsoQDFQAAAAAdAAAAABAI' }} style={{
         aspectRatio: '4/3',
         width: '100%',
         height: 'auto',
@@ -32,7 +43,7 @@ export default function ResultPage() {
         </Surface>
 
         <Text variant='headlineMedium' style={styles.plant_title}>
-          Rice ( Oryza sativa )
+          {value['class'] ? value['class'].split("___")[0].replaceAll("_"," ") : 'Rice ( Oryza sativa )'}
         </Text>
 
         <Surface elevation={0} style={styles.tags_container}>
@@ -41,15 +52,15 @@ export default function ResultPage() {
               {'Status: '}
             </Text>
             <Text variant='bodySmall' style={styles.tag_status_text}>
-              Healthy
+              {value['class'] ? value['class'].split("___")[1].replaceAll("_"," ") : 'Healthy'}
             </Text>
           </View>
 
-          <View style={styles.tag}>
+          {/* <View style={styles.tag}>
             <Text variant='bodySmall' style={styles.tag_text}>
               Papaveraceae
             </Text>
-          </View>
+          </View> */}
         </Surface>
 
         <Text variant='headlineSmall' style={styles.desc_title}>
@@ -59,7 +70,7 @@ export default function ResultPage() {
         <Text variant='bodyMedium' style={styles.origin} >
           From Wikipedia, the free encyclopedia
         </Text>
-        
+
         <Description description={"Rice is the seed of the grass species Oryza sativa (Asian rice) or, much less commonly, O. glaberrima (African rice). As a cereal grain, domesticated rice is the most widely consumed staple food for over half of the world's human population..."} />
 
         <Divider style={{ backgroundColor: '#D9D9D9' }} />
@@ -77,6 +88,9 @@ export default function ResultPage() {
 
         <Button mode='contained' style={styles.button} onPress={() => alert('Click')} >
           See possible disease
+        </Button>
+        <Button mode='outlined' style={styles.buttonHome} onPress={goBackHomepage} >
+          Back to homepage
         </Button>
       </Surface>
     </ScrollView>
@@ -158,6 +172,13 @@ const styles = StyleSheet.create({
     shadowColor: 'rgba(154, 207, 117, 0.25)',
     shadowOpacity: 1,
     shadowRadius: 2,
+    elevation: 5,
+    marginBottom: 12,
+  },
+  buttonHome: {
+    borderRadius: 10,
+    paddingVertical: 8,
+    borderColor: '#61AF2B',
     elevation: 5
   }
 });

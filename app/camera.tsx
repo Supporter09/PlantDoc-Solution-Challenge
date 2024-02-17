@@ -53,6 +53,11 @@ const CameraScreen: React.FC = () => {
     }, [])
   );
 
+  // Back to homepage
+  const goBackHomepage = () => {
+    navigation.navigate('home');
+  }
+
   // Handle camera
   const startCamera = async () => {
     if (cameraRef.current) {
@@ -77,7 +82,7 @@ const CameraScreen: React.FC = () => {
 
     if (!result.canceled) {
       setPickedImage(result.assets[0]['uri']);
-      console.log(result.assets[0]['uri'])
+      // console.log(result.assets[0]['uri'])
     }
   };
 
@@ -101,14 +106,15 @@ const CameraScreen: React.FC = () => {
         },
       });
       console.log('Upload successful:', response.data);
-      navigation.navigate('result', { data: response.data });
+      const value = response.data
+      value[0]['uri'] = pickedImage
+
+      navigation.navigate('result', { data: value });
       setPickedImage(null)
     } catch (error) {
       console.error('Error uploading image:', error);
     }
   };
-
-
 
   // Taking photo
   const handleTakePhoto = async () => {
@@ -141,7 +147,7 @@ const CameraScreen: React.FC = () => {
         formData.append('data', JSON.stringify({ key: 'value' }));
         const photoUriParts = capturedPhoto.split('.');
         const fileExtension = photoUriParts[photoUriParts.length - 1];
-        console.log('Captured uri', capturedPhoto)
+        // console.log('Captured uri', capturedPhoto)
         formData.append('file', {
           uri: capturedPhoto,
           name: `photo.${fileExtension}`,
@@ -157,7 +163,7 @@ const CameraScreen: React.FC = () => {
         // console.log('Upload Response:', response.data);
 
         // Navigate to result page with returned data
-        navigation.navigate('result', { data: response.data });
+        navigation.navigate('result', { data: response.data, uri: capturedPhoto });
         setCapturedPhoto(null)
       } catch (error) {
         console.error('Error uploading photo:', error);
@@ -179,6 +185,11 @@ const CameraScreen: React.FC = () => {
         <View
           style={styles.container}
         >
+          {/* Back to Homepage */}
+          <TouchableOpacity style={styles.backIcon}  onPress={goBackHomepage}>
+            <MaterialIcons name="arrow-back-ios" size={32} color="white" />
+          </TouchableOpacity>
+
           {/* Choose image from gallery */}
           <TouchableOpacity style={styles.galleryIcon} onPress={selectImage}>
             <MaterialIcons name="photo-library" size={52} color="white" />
@@ -250,6 +261,11 @@ const styles = StyleSheet.create({
   galleryIcon: {
     position: 'absolute',
     bottom: 20,
+    left: 20,
+  },
+  backIcon: {
+    position: 'absolute',
+    top: 40,
     left: 20,
   },
 });

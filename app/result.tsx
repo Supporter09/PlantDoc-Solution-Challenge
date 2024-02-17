@@ -12,7 +12,7 @@ export default function Result() {
     console.log(data)
     return (
         <SafeAreaView style={styles.container}>
-            <ResultPage />
+            <ResultPage data = {data} />
         </SafeAreaView>
     );
 }
