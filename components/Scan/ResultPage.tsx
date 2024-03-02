@@ -43,7 +43,7 @@ export default function ResultPage({ data, uri }) {
         </Surface>
 
         <Text variant='headlineMedium' style={styles.plant_title}>
-          {value['class'] ? value['class'].split("___")[0].replaceAll("_"," ") : 'Rice ( Oryza sativa )'}
+          {value['class'] ? value['class'].split("__")[0].replaceAll("_"," ") : 'Rice ( Oryza sativa )'}
         </Text>
 
         <Surface elevation={0} style={styles.tags_container}>
@@ -52,7 +52,7 @@ export default function ResultPage({ data, uri }) {
               {'Status: '}
             </Text>
             <Text variant='bodySmall' style={styles.tag_status_text}>
-              {value['class'] ? value['class'].split("___")[1].replaceAll("_"," ") : 'Healthy'}
+              {value['class'] ? value['class'].split("__")[1].replaceAll("_"," ") : 'Healthy'}
             </Text>
           </View>
 

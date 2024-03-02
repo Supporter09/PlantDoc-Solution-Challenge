@@ -15,16 +15,16 @@ export default function RecommendCard({ season = 'Spring', plant = 'Wheat', img_
                 <Text variant='bodySmall' style={{
                     color: '#61AF2B'
                 }} >
-                {season}
-            </Text>
-            <Text variant='bodyLarge' style={{
-                fontWeight: 'bold'
+                    {season}
+                </Text>
+                <Text variant='bodyLarge' style={{
+                    fontWeight: 'bold'
                 }} >
-            {plant}
-        </Text>
+                    {plant}
+                </Text>
             </Surface >
 
-        <Image source={img_uri} style={styles.cardImage} />
+            <Image source={img_uri} style={styles.cardImage} />
         </Surface >
     );
 }
