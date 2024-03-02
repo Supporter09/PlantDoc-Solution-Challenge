@@ -39,8 +39,8 @@ export default function TabLayout() {
             iconName = focused
               ? 'person'
               : 'person-outline';
-          } else if (route.name === 'saved') {
-            iconName = focused ? 'bookmark' : 'bookmark-outline';
+          } else if (route.name === 'forum') {
+            iconName = focused ? 'people' : 'people-outline';
           }
 
           // You can return any component that you like here!
@@ -94,10 +94,16 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="saved"
+        name="forum"
         options={{
-          title: 'Saved',
-          headerTitle: 'Saved Plants',
+          title: 'Forum',
+          headerTitle: 'Forum',
+          headerRight: () => (
+            <View style={styles.indexAppBarIcons}>
+              <IonIcon name='search-outline' size={28} style={styles.indexAppBarIcon} />
+              <IonIcon name='add-circle-outline' size={28} style={styles.indexAppBarIcon} />
+            </View>
+          ),
           headerTitleStyle: {
             fontWeight: 'bold'
           },
